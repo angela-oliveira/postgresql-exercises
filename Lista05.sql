@@ -94,6 +94,14 @@
 --select date_part('month', payment_date) mes, sum(amount) faturamento
 --from payment
 --group by date_part('month', payment_date)
+select date_part('month',payment_date),sum(amount) 
+from payment 
+where date_part('year',payment_date) = 2007 
+group by date_part 
+having sum(amount) = (select max(tot) 
+					  from (select date_part('month',payment_date), sum(amount) tot 
+							from payment 
+							group by date_part) pay)
 
 --20
 --select st.store_id, count(sf.staff_id)
@@ -109,3 +117,11 @@
 --on fc.category_id = c.category_id
 --where c.name like 'Drama' or c.name like 'Action'
 
+
+--select f.title, count(r.rental_id) quant
+--from film f join inventory i
+--on f.film_id = i.film_id join rental r
+--on i.inventory_id = r.inventory_id
+--group by f.title
+--order by quant desc
+--limit 10
